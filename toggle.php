@@ -44,6 +44,15 @@ if ($config->everycourse) {
     block_togglerole_toggleall($roleid);
     if ($config->persistent) {
         // store the toggled-role status in the DB
+        try {
+            if ($roleid > 0) {
+                $DB->insert_record('block_togglerole', (object) ['userid' => $USER->id]);
+            } else {
+                $DB->delete_records('block_togglerole', ['userid' => $USER->id]);
+            }
+        } catch (Exception $e) {
+            // nothing
+        }
     }
 } else {
     // only this course
