@@ -66,12 +66,12 @@ function block_togglerole_toggleall($roleid) {
      * If the block was computed before the main content of the page, it would be simpler and faster.
      */
     $roles = get_roles_with_capability('moodle/role:switchroles');
-    $rolesids = join(',', array_filter($roles, function($x) {return $x->id;}));
+    $rolesids = join(',', array_map(function($x) {return $x->id;}, $roles));
     $DB->get_records_sql(
         "SELECT c.* FROM {context} c "
         . " JOIN {role_assignments} ra ON ra.contextid = c.id"
         . " WHERE ra.roleid IN ($rolesids) AND c.contextlevel = :c",
-        [':c' => CONTEXT_COURSE]
+        ['c' => CONTEXT_COURSE]
     );
     /**
      * @todo Extend this to courses where the user has a role on a category above the course.
@@ -88,6 +88,6 @@ function block_togglerole_toggleall($roleid) {
             }
         }
     }
-    $SESSION->blockToggleroleMessage = "invalid target role";
+    //$SESSION->blockToggleroleMessage = get_string("statuschanged", 'block_togglerole');
     $SESSION->blockToggleRoleActive = empty($SESSION->blockToggleRoleActive);
 }

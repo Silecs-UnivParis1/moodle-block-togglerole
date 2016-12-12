@@ -48,7 +48,7 @@ class block_togglerole extends block_base {
                 ($this->dbconfig->buttontextoff ? $this->dbconfig->buttontextoff : get_string('buttontextoff', 'block_togglerole'))
                 : ($this->dbconfig->buttontexton ? $this->dbconfig->buttontexton : get_string('buttontexton', 'block_togglerole')))
         );
-        if (isset($SESSION->blockToggleroleMessage)) {
+        if (!empty($SESSION->blockToggleroleMessage)) {
             $this->content->footer = $SESSION->blockToggleroleMessage;
             unset($SESSION->blockToggleroleMessage);
         } else {
