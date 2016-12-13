@@ -63,21 +63,22 @@ function block_togglerole_toggleall($roleid) {
     global $DB, $SESSION;
 
     /* Go through every course where the current user has a "powerful" role.
-     * If the block was computed before the main content of the page, it would be simpler and faster.
+     * (If the block was computed before the main content of the page,
+     *  it would be simpler and faster, but that's not possible.)
      */
     $roles = get_roles_with_capability('moodle/role:switchroles');
     $rolesids = join(',', array_map(function($x) {return $x->id;}, $roles));
-    $DB->get_records_sql(
-        "SELECT c.* FROM {context} c "
+    $directContexts = $DB->get_records_sql(
+        "SELECT " . context_helper::get_preload_record_columns_sql('c')
+        . " FROM {context} c "
         . " JOIN {role_assignments} ra ON ra.contextid = c.id"
         . " WHERE ra.roleid IN ($rolesids) AND c.contextlevel = :c",
         ['c' => CONTEXT_COURSE]
     );
-    /**
-     * @todo Extend this to courses where the user has a role on a category above the course.
-     */
-    $contexts = [];
-    foreach ($contexts as $context) {
+    foreach ($directContexts as $ctx) {
+        $courseid = $ctx->ctxinstance; // this field will be deleted by a vicious side-effect!
+        context_helper::preload_from_record($ctx);
+        $context = context_course::instance($courseid);
         if ($roleid == 0) {
             role_switch(0, $context);
         } else if (has_capability('moodle/role:switchroles', $context)) {
