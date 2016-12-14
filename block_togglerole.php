@@ -72,6 +72,9 @@ class block_togglerole extends block_base {
      * @return array
      */
     public function applicable_formats() {
-        return ['course-view' => true];
+        return [
+            'site-index' => true,
+            'course-view' => true,
+        ];
     }
 }

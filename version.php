@@ -11,6 +11,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016120106;
+$plugin->version = 2016120110;
 $plugin->requires =  2015051100;
 $plugin->component = 'block_togglerole';
