@@ -20,3 +20,14 @@ Extract files or git-clone them under your Moodle directory,
 into `blocks/togglerole`. E.g.
 
 `cd blocks ; git clone ... togglerole`
+
+Like any normal block plugin, you should then insert a block instance
+in a Moodle page. You probably want to do this as an admin,
+so that the block is visible for every teacher on every course:
+
+- Go to a course main page
+- Switch to editing mode
+- Use the drop-down list to select this block plugin
+- Optionaly, move the block to the right position
+- Optionaly, change the settings to make it visible on sub-pages of courses
+
