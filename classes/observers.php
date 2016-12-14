@@ -18,7 +18,7 @@ class observers {
 
         $edata = (object) $event->get_data(); // See https://docs.moodle.org/dev/Event_2#Properties
         $config = \get_config("block_togglerole");
-        if ($config->persistent && $DB->record_exists('block_togglerole', ['user' => $edata->userid])) {
+        if ($config->persistent && $DB->record_exists('block_togglerole', ['userid' => $edata->userid])) {
             $config = \get_config("block_togglerole");
             \block_togglerole_toggleall((int) $config->roleid);
         }
