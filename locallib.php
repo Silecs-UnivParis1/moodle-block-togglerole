@@ -60,7 +60,7 @@ function block_togglerole_toggle($courseid, $roleid) {
  * @param integer $roleid
  */
 function block_togglerole_toggleall($roleid) {
-    global $DB, $SESSION;
+    global $DB, $SESSION, $USER;
 
     /* Go through every course where the current user has a "powerful" role.
      * (If the block was computed before the main content of the page,
@@ -72,8 +72,8 @@ function block_togglerole_toggleall($roleid) {
         "SELECT " . context_helper::get_preload_record_columns_sql('c')
         . " FROM {context} c "
         . " JOIN {role_assignments} ra ON ra.contextid = c.id"
-        . " WHERE ra.roleid IN ($rolesids) AND c.contextlevel = :c",
-        ['c' => CONTEXT_COURSE]
+        . " WHERE ra.roleid IN ($rolesids) AND c.contextlevel = :c AND userid = :u",
+        ['c' => CONTEXT_COURSE, 'u' => $USER->id]
     );
     foreach ($directContexts as $ctx) {
         $courseid = $ctx->ctxinstance; // this field will be deleted by a vicious side-effect!
