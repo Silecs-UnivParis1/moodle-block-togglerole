@@ -69,7 +69,7 @@ function block_togglerole_toggleall($roleid) {
     $roles = get_roles_with_capability('moodle/role:switchroles');
     $rolesids = join(',', array_map(function($x) {return $x->id;}, $roles));
     $directContexts = $DB->get_records_sql(
-        "SELECT " . context_helper::get_preload_record_columns_sql('c')
+        "SELECT DISTINCT " . context_helper::get_preload_record_columns_sql('c')
         . " FROM {context} c "
         . " JOIN {role_assignments} ra ON ra.contextid = c.id"
         . " WHERE ra.roleid IN ($rolesids) AND c.contextlevel = :c AND userid = :u",
