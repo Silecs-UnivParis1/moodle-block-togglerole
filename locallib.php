@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * @license http://www.gnu.org/licenses/gpl-3.0.html  GNU GPL v3
  */
 
@@ -61,6 +61,11 @@ function block_togglerole_toggle($courseid, $roleid) {
  */
 function block_togglerole_toggleall($roleid) {
     global $DB, $SESSION, $USER;
+
+    if (has_capability('moodle/role:switchroles', context_system::instance())) {
+        // No switch in case of site-wide access
+        return false;
+    }
 
     /* Go through every course where the current user has a "powerful" role.
      * (If the block was computed before the main content of the page,
