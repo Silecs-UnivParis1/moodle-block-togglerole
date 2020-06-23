@@ -35,3 +35,5 @@ As an admin,
 - Go to a course page
 - configure the block to make it visible on any course page, or any course sub-page
 
+(C) 2016-2020 Silecs 
+
